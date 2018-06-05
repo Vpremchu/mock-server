@@ -22,9 +22,15 @@ module.exports = {
             const mrn = req.parms.mrn || '';
             const status = req.body.status;
 
-            assert(mrn !== '', 'MRN was not defined or passed as empty');
-            assert(typeof(mrn) === 'string', 'MRN is not of type string');
-            assert(status > 0, 'status not defined or passed as empty');
+            try{
+                expect(status).to.be.oneOf([-1, 0, 1, 8, 13, 18, 22, 25, 36, 37]);
+                expect(mrn).to.be.a('string');
+                expect(mrn).to.not.to.be.empty;
+            }catch (ex){
+                const error = new ApiError(ex.toString(), 422);
+                next(error);
+                return
+            }
 
             db.query('UPDATE declaration SET status=' + status + 'WHERE mrn ="' + mrn + '"', (err, rows, fields) => {
                 if(err){
