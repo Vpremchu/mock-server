@@ -1,0 +1,25 @@
+{
+  "name": "mock-serverteamvrachtwaggel",
+  "version": "1.0.0",
+  "description": "mock-server",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vpremchu/mock-server.git"
+  },
+  "author": "Kelly Premchuen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vpremchu/mock-server/issues"
+  },
+  "homepage": "https://github.com/Vpremchu/mock-server#readme"
+}
