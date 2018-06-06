@@ -27,20 +27,17 @@ module.exports = {
             let adresOrigin = req.body.adresOrigin;
             let adresDestination = req.body.adresDestination;
 
-            //assert(typeof (companyID) === 'int', 'companyID voornaam must be an int')
-            // assert(typeof (originID) === 'string', 'originID must be a int')
-            // assert(typeof (destinationID) === 'string', 'destinationID must be a int')
-            //assert(typeof (accountID) === 'int', 'accountID must be an int')
+            assert(companyID > 0, 'One or more properties are invalid');
             assert(typeof (mrn) === 'string', 'mrn must be a string')
-            //assert(typeof (status) === 'int', 'status must be an int')
+            assert(status > 0, 'One or more properties are invalid');
             assert(typeof (reference) === 'string', 'reference must be an string')
             assert(typeof (sender) === 'string', 'sender must be a string')
             assert(typeof (receiver) === 'string', 'receiver must be a string')
             assert(typeof (client) === 'string', 'client must be a string')
-            //assert(typeof (numberOfProduct) === 'int', 'numberOfProduct must be a int')
-            //assert(typeof (totalAmount) === 'double', 'totalAmount must be a double')
+            assert(numberOfProducts > 0, 'One or more properties are invalid');
+            assert(totalAmount > 0, 'One or more properties are invalid');
             assert(typeof (currency) === 'string', 'currency must be a string')
-            //assert(typeof (totalWeight) === 'int', 'totalWeight must be a int')
+            assert(totalWeight > 0, 'One or more properties are invalid');
             assert(typeof (datetime) === 'string', 'date must be a string')
 
             adresOrigin = adresOrigin.replace(/ /g,"+");
