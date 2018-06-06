@@ -14,8 +14,8 @@ describe('Declaration code handling', function (){
             }).end((error, response) => {
             response.should.have.status(200);
             response.should.be.a('object');
+            done();
         });
-        done();
     });
 
     it('should return a 422 eror when an invalid status is presented', (done) => {
@@ -26,7 +26,7 @@ describe('Declaration code handling', function (){
             }).end((error, response) => {
             response.should.have.status(422);
             response.should.be.a('object');
+            done();
         });
-        done();
     });
 });
