@@ -16,10 +16,6 @@ const declaration_routes = require('./routes/declaration_routes');
 const error_routes = require('./routes/error_routes');
 
 // Include necessary controllers
-const decleration_routes = require('./routes/declaration_routes');
-const error_routes = require('./routes/error_routes');
-const decleration_routes = require('./routes/declaration_routes');
-const error_routes = require('./routes/error_routes');
 const ErrorController = require('./controllers/error_controller');
 
 //  Setting up all the necessary variables used by the express library
@@ -36,12 +32,10 @@ app.use(bodyparser.json());
 //  All routing usages
 //
 // Parse all the requests regarding decleration.
-
 app.use('/api', declaration_routes);
 
 //Error handling - Endpoint handling routing and final error destination handling
-app.use('/api', decleration_routes);
-app.use('/api', decleration_routes);
+
 app.use('*', error_routes);
 app.use(ErrorController.errorHandling);
 //

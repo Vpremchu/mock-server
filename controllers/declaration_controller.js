@@ -10,7 +10,7 @@ const ApiError = require('../models/ApiError');
 const request = require('request');
 
 module.exports = {
-    postDecleration(req, res, next) {
+    postDeclaration(req, res, next) {
         try {
             const companyID = req.body.companyID;
             const mrn = req.body.mrn;
@@ -28,8 +28,6 @@ module.exports = {
             let adresDestination = req.body.adresDestination;
 
             assert(companyID > 0, 'One or more properties are invalid');
-            assert(originID > 0, 'originID must be a string')
-            assert(destinationID > 0, 'destinationID must be an int')
             assert(typeof (mrn) === 'string', 'mrn must be a string')
             assert(status > 0, 'One or more properties are invalid');
             assert(typeof (reference) === 'string', 'reference must be an string')
@@ -42,6 +40,7 @@ module.exports = {
             assert(totalWeight > 0, 'One or more properties are invalid');
             assert(typeof (datetime) === 'string', 'date must be a string')
 
+            let adresOriginOld = adresOrigin;
             adresOrigin = adresOrigin.replace(/ /g,"+");
             request('https://maps.googleapis.com/maps/api/geocode/json?address=' + adresOrigin + '&key=AIzaSyDSl3BQHa64wfVOcUm6RdW7Me32EGDwpac', {json:true}, (errorAdresOrigin, resAdresOrigin, bodyAdresOrigin) => {
                 if(errorAdresOrigin){
@@ -51,6 +50,8 @@ module.exports = {
                         const locationOrigin = bodyAdresOrigin.results[0].geometry.location;
                         const latOrigin = locationOrigin.lat;
                         const lngOrigin = locationOrigin.lng;
+
+                        let adresDestinationOld = adresDestination;
                         adresDestination = adresDestination.replace(/ /g,"+");
                         request('https://maps.googleapis.com/maps/api/geocode/json?address=' + adresDestination + '&key=AIzaSyDSl3BQHa64wfVOcUm6RdW7Me32EGDwpac', {json:true}, (errorAdresDestination, resAdresDestination, bodyAdresDestination) => {
                             if(errorAdresDestination){
@@ -61,19 +62,13 @@ module.exports = {
                                     const latDestination = locationDestination.lat;
                                     const lngDestination = locationDestination.lng;
 
-                                    var query = "INSERT INTO declaration (companyID, originID, destinationID, mrn, status, reference, sender, receiver, client, numberOfProducts, totalAmount, currency, totalWeight, datetime) VALUES ?"
-                                    var values = [[companyID, originID, destinationID, mrn, status, reference, sender, receiver, client, numberOfProducts, totalAmount, currency, totalWeight, datetime]]
+                                    var values = [companyID, mrn, status, reference, sender, receiver, client, numberOfProducts, totalAmount, currency, totalWeight, datetime, adresOriginOld, latOrigin, lngOrigin, adresDestinationOld, latDestination, lngDestination];
 
-                                        db.query(query, [values], (error, rows, fields) => {
+                                        db.query('CALL addDeclaration(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', values, (errordb, rows, fields) => {
                                         if (errordb) {
                                             next(new ApiError(500, errordb.message));
                                         } else {
-                                            const row = rows[0][0];
-                                            switch (row.result) {
-                                                case 0:
-                                                    res.status(200).json({}).end();
-                                                    break;
-                                            }
+                                            res.status(200).json({}).end();
                                         }
                                     });
                                 }
@@ -91,19 +86,14 @@ module.exports = {
 
     //function to update status in the database
     setDeclaration(req, res, next){
-        try{
-            const mrn = req.parms.mrn || '';
+        try {
+
+            const mrn = req.params.mrn || '';
             const status = req.body.status;
 
-            try{
-                expect(status).to.be.oneOf([-1, 0, 1, 8, 13, 18, 22, 25, 36, 37]);
-                expect(mrn).to.be.a('string');
-                expect(mrn).to.not.to.be.empty;
-            }catch (ex){
-                const error = new ApiError(ex.toString(), 422);
-                next(error);
-                return
-            }
+            expect(status).to.be.oneOf([-1, 0, 1, 8, 13, 18, 22, 25, 36, 37]);
+            expect(mrn).to.be.a('string');
+            expect(mrn).to.not.to.be.empty;
 
             db.query('UPDATE declaration SET status=' + status + 'WHERE mrn ="' + mrn + '"', (err, rows, fields) => {
                 if(err){
@@ -112,9 +102,10 @@ module.exports = {
                     res.sendStatus(200).json(rows[0]).end();
                 }
             });
-        } catch (error){
-            next(new ApiError(412, error.message));
-        }
 
+        }catch (ex){
+            next(new ApiError(422, ex.toString()));
+            return
+        }
     }
 }
