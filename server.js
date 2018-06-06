@@ -12,7 +12,7 @@ const config = require('./config/config.json')
 const db = require('./config/db');
 
 //Include the routes
-const decleration_routes = require('./routes/decleration_routes');
+const decleration_routes = require('./routes/declaration_routes');
 const error_routes = require('./routes/error_routes');
 const ErrorController = require('./controllers/error_controller');
 
