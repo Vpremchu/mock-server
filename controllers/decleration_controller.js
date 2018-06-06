@@ -2,7 +2,7 @@
 // Decleration controller
 //
 
-let decleration = require('./models/decleration');
+//let decleration = require('./models/decleration');
 const assert = require('assert');
 const db = require('../config/db');
 const ApiError = require('../models/ApiError');
@@ -44,9 +44,6 @@ module.exports = {
                     const row = rows[0][0];
                     switch (row.result) {
                         case 0:
-                            next(new ApiError(401, 'You are not authorized to update this declaration'));
-                            break;
-                        case 1:
                             response.status(200).json({}).end();
                             break;
                     }

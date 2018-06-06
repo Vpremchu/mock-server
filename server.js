@@ -5,12 +5,14 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const morgan = require('morgan');
+const config = require('./config/config.json')
+
 
 // Include all config files
 const db = require('./config/db');
 
 //Include the routes
-const decleration_routes = require('./routes/declaration_routes');
+const decleration_routes = require('./routes/decleration_routes');
 
 //  Setting up all the necessary variables used by the express library
 //
