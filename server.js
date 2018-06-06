@@ -13,10 +13,15 @@ const db = require('./config/db');
 
 //Include the routes
 <<<<<<< HEAD
+<<<<<<< HEAD
 const declaration_routes = require('./routes/declaration_routes');
 const error_routes = require('./routes/error_routes');
 
 // Include necessary controllers
+=======
+const decleration_routes = require('./routes/declaration_routes');
+const error_routes = require('./routes/error_routes');
+>>>>>>> 0bfd3e58aefea90f06bf134be842d48cc9a1804e
 =======
 const decleration_routes = require('./routes/declaration_routes');
 const error_routes = require('./routes/error_routes');
@@ -38,9 +43,13 @@ app.use(bodyparser.json());
 //
 // Parse all the requests regarding decleration.
 <<<<<<< HEAD
+<<<<<<< HEAD
 app.use('/api', declaration_routes);
 
 //Error handling - Endpoint handling routing and final error destination handling
+=======
+app.use('/api', decleration_routes);
+>>>>>>> 0bfd3e58aefea90f06bf134be842d48cc9a1804e
 =======
 app.use('/api', decleration_routes);
 >>>>>>> 0bfd3e58aefea90f06bf134be842d48cc9a1804e
