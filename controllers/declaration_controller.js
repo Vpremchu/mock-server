@@ -28,11 +28,8 @@ module.exports = {
             let adresDestination = req.body.adresDestination;
 
             assert(companyID > 0, 'One or more properties are invalid');
-<<<<<<< HEAD
             assert(originID > 0, 'originID must be a string')
             assert(destinationID > 0, 'destinationID must be an int')
-=======
->>>>>>> 0bfd3e58aefea90f06bf134be842d48cc9a1804e
             assert(typeof (mrn) === 'string', 'mrn must be a string')
             assert(status > 0, 'One or more properties are invalid');
             assert(typeof (reference) === 'string', 'reference must be an string')
@@ -63,15 +60,11 @@ module.exports = {
                                     const locationDestination = bodyAdresDestination.results[0].geometry.location;
                                     const latDestination = locationDestination.lat;
                                     const lngDestination = locationDestination.lng;
-<<<<<<< HEAD
 
                                     var query = "INSERT INTO declaration (companyID, originID, destinationID, mrn, status, reference, sender, receiver, client, numberOfProducts, totalAmount, currency, totalWeight, datetime) VALUES ?"
                                     var values = [[companyID, originID, destinationID, mrn, status, reference, sender, receiver, client, numberOfProducts, totalAmount, currency, totalWeight, datetime]]
 
                                         db.query(query, [values], (error, rows, fields) => {
-=======
-                                    db.query('CALL postDeclaration (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [companyID, mrn, status, reference, sender, receiver, client, numberOfProducts, totalAmount, currency, totalWeight, datetime, adresOrigin, adresDestination, latOrigin, lngOrigin, latDestination, lngDestination], (errordb, rows, fields) => {
->>>>>>> 0bfd3e58aefea90f06bf134be842d48cc9a1804e
                                         if (errordb) {
                                             next(new ApiError(500, errordb.message));
                                         } else {
