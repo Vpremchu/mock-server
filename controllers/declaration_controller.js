@@ -28,20 +28,21 @@ module.exports = {
             let adresOrigin = req.body.adresOrigin;
             let adresDestination = req.body.adresDestination;
 
-            assert(typeof (companyID) === 'int', 'companyID voornaam must be an int');
-            assert(typeof (accountID) === 'int', 'accountID must be an int');
-            assert(typeof (mrn) === 'string', 'mrn must be a string');
-            assert(typeof (status) === 'int', 'status must be an int');
-            assert(typeof (reference) === 'string', 'reference must be an string');
-            assert(typeof (receiver) === 'string', 'receiver must be a string');
-            assert(typeof (client) === 'string', 'client must be a string');
-            assert(typeof (numberOfProducts) === 'int', 'numberOfProduct must be a int');
-            assert(typeof (totalAmount) === 'double', 'totalAmount must be a double');
-            assert(typeof (currency) === 'string', 'currency must be a string');
-            assert(typeof (totalWeight) === 'int', 'totalWeight must be a int');
-            assert(typeof (datetime) === 'date', 'receiver must be a date');
-            assert(typeof (adresOrigin) === 'string', 'receiver must be a string');
-            assert(typeof (adresDestination) === 'string', 'receiver must be a string');
+            assert(typeof (companyID) === 'int', 'companyID voornaam must be an int')
+            assert(typeof (originID) === 'string', 'originID must be a int')
+            assert(typeof (destinationID) === 'string', 'destinationID must be a int')
+            //assert(typeof (accountID) === 'int', 'accountID must be an int')
+            assert(typeof (mrn) === 'string', 'mrn must be a string')
+            assert(typeof (status) === 'int', 'status must be an int')
+            assert(typeof (reference) === 'string', 'reference must be an string')
+            assert(typeof (sender) === 'string', 'sender must be a string')
+            assert(typeof (receiver) === 'string', 'receiver must be a string')
+            assert(typeof (client) === 'string', 'client must be a string')
+            assert(typeof (numberOfProduct) === 'int', 'numberOfProduct must be a int')
+            assert(typeof (totalAmount) === 'double', 'totalAmount must be a double')
+            assert(typeof (currency) === 'string', 'currency must be a string')
+            assert(typeof (totalWeight) === 'int', 'totalWeight must be a int')
+            assert(typeof (datetime) === 'string', 'date must be a string')
 
             adresOrigin = adresOrigin.replace(/ /g,"+");
             request('https://maps.googleapis.com/maps/api/geocode/json?address=' + adresOrigin + '&key=AIzaSyDSl3BQHa64wfVOcUm6RdW7Me32EGDwpac', {json:true}, (errorAdresOrigin, resAdresOrigin, bodyAdresOrigin) => {
@@ -87,7 +88,7 @@ module.exports = {
     },
 
     //function to update status in the database
-    setDecleration(req, res, next){
+    setDeclaration(req, res, next){
         try{
             const mrn = req.parms.mrn || '';
             const status = req.body.status;
