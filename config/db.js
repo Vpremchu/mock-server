@@ -2,7 +2,7 @@
 // Configuratiebestand voor MySql database.
 //
 var mysql = require('mysql');
-var config = require('../config/config');
+var config = require('../config/config.json');
 
 const connectionSettings = {
     host: process.env.DB_SERVER,

@@ -12,7 +12,7 @@ const config = require('./config/config.json')
 const db = require('./config/db');
 
 //Include the routes
-const decleration_routes = require('./routes/decleration_routes');
+const declaration_routes = require('./routes/declaration_routes');
 
 //  Setting up all the necessary variables used by the express library
 //
@@ -28,7 +28,7 @@ app.use(bodyparser.json());
 //  All routing usages
 //
 // Parse all the requests regarding decleration.
-app.use('/api,', decleration_routes);
+app.use('/api,', declaration_routes);
 
 //
 //  Starting up the server on specified port

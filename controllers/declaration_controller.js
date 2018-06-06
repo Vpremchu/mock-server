@@ -9,12 +9,15 @@ const ApiError = require('../models/ApiError');
 
 
 module.exports = {
-    postDecleration(request, response, next) {
+    postDeclaration(request, response, next) {
         try {
-            const accountID = request.body.accountID;
+            //const accountID = request.body.accountID;
             const companyID = request.body.companyID;
+            const originID = request.body.originID;
+            const destinationID = request.body.destinationID;
             const mrn = request.body.mrn;
             const status = request.body.status;
+            const sender = request.body.sender;
             const reference = request.body.reference;
             const receiver = request.body.receiver;
             const client = request.body.client;
@@ -25,19 +28,22 @@ module.exports = {
             const datetime = request.body.datetime;
 
             assert(typeof (companyID) === 'int', 'companyID voornaam must be an int')
-            assert(typeof (accountID) === 'int', 'accountID must be an int')
+            assert(typeof (originID) === 'string', 'originID must be a int')
+            assert(typeof (destinationID) === 'string', 'destinationID must be a int')
+            //assert(typeof (accountID) === 'int', 'accountID must be an int')
             assert(typeof (mrn) === 'string', 'mrn must be a string')
             assert(typeof (status) === 'int', 'status must be an int')
             assert(typeof (reference) === 'string', 'reference must be an string')
+            assert(typeof (sender) === 'string', 'sender must be a string')
             assert(typeof (receiver) === 'string', 'receiver must be a string')
             assert(typeof (client) === 'string', 'client must be a string')
             assert(typeof (numberOfProduct) === 'int', 'numberOfProduct must be a int')
             assert(typeof (totalAmount) === 'double', 'totalAmount must be a double')
             assert(typeof (currency) === 'string', 'currency must be a string')
             assert(typeof (totalWeight) === 'int', 'totalWeight must be a int')
-            assert(typeof (date) === 'date', 'receiver must be a date')
+            assert(typeof (datetime) === 'string', 'date must be a string')
 
-            db.query('CALL postDecleration (?,?,?,?,?,?,?,?,?,?,?,?)', [accountID, companyID, mrn, status, reference, sender, receiver, client, numberOfProducts, totalAmount, currency, totalWeight, datetime], (error, rows, fields) => {
+            db.query('CALL postDeclaration (?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [companyID, originID, destinationID, mrn, status, reference, sender, receiver, client, numberOfProducts, totalAmount, currency, totalWeight, datetime], (error, rows, fields) => {
                 if (error) {
                     next(new ApiError(500, error.message));
                 } else {
@@ -55,7 +61,7 @@ module.exports = {
     },
 
     //function to update status in the database
-    setDecleration(req, res, next){
+    setDeclaration(req, res, next){
         try{
             const mrn = req.parms.mrn || '';
             const status = req.body.status;
