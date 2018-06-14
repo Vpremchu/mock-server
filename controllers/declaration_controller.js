@@ -9,6 +9,7 @@ const ApiError = require('../models/ApiError');
 //var http = require('http');
 const request = require('request');
 
+
 module.exports = {
     postDeclaration(req, res, next) {
         try {
@@ -107,5 +108,18 @@ module.exports = {
             next(new ApiError(422, ex.toString()));
             return
         }
+    },
+
+    addFile(request, response, next) {
+        const mrn = request.body.mrn;
+        const file = request.body.pdf;
+        const test = Buffer.from(file, 'base64');
+        db.query('CALL addFile(?,?);', [mrn, test], (error, rows, fields) => {
+            if(error) {
+                next(new ApiError(500, error.message));
+            } else {
+                response.status(200).json({}).end();
+            }
+        });
     }
-}
+};
