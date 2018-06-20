@@ -9,7 +9,6 @@ const ApiError = require('../models/ApiError');
 //var http = require('http');
 const request = require('request');
 
-
 module.exports = {
     postDeclaration(req, res, next) {
         try {
@@ -86,11 +85,35 @@ module.exports = {
     },
 
     //function to update status in the database
-    setDeclaration(req, res, next){
+    updateDeclaration(req, res, next){
         try {
 
             const mrn = req.params.mrn || '';
-            const status = req.body.status;
+
+            const pattern = /[0-9]{2}[A-Z]{2}[A-Z0-9]{14}/;
+            assert(pattern.test(mrn), 'Ongeldig MRN code format');
+
+            db.query('CALL sentMRNcode(?)', [mrn], (error) => {
+                if (error) {
+                    next(new ApiError(500, error.message));
+                } else {
+                    res.status(200).json({}).end();
+                    setTimeout(function() {
+                        db.query('CALL updateDeclaration(?)', [mrn], (err, rows, fields) => {
+                            if(err) {
+                                next(new ApiError(500, err.message));
+                            } else {
+                                let options = {
+
+                                    url: 'https://nodejsteamvrachtwaggel.herokuapp.com/api/declaration/update/' + mrn
+                                };
+                                request(options, function() {});
+                            }
+                        });
+                    }, 10000, mrn);
+                }
+            });
+            /*const status = req.body.status;
 
             expect(status).to.be.oneOf([-1, 0, 1, 8, 13, 18, 22, 25, 36, 37]);
             expect(mrn).to.be.a('string');
@@ -102,7 +125,7 @@ module.exports = {
                 }else{
                     res.sendStatus(200).json(rows[0]).end();
                 }
-            });
+            });*/
 
         }catch (ex){
             next(new ApiError(422, ex.toString()));
