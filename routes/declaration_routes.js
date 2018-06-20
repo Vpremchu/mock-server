@@ -8,8 +8,8 @@ let routes = express.Router();
 
 // The router endpoints that we provide
 routes.post('/declaration',declaration_controller.postDeclaration);
-routes.put('/declaration/:mrn',declaration_controller.setDeclaration);
-
+routes.post('/file', declaration_controller.addFile);
+routes.put('/declaration/:mrn',declaration_controller.updateDeclaration);
 
 // Exporting the routes so they can be used by the other classes
 module.exports = routes;

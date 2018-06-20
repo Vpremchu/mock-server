@@ -1,4 +1,4 @@
 {
-    "webPort": "3000",
+    "webPort": "3030",
     "secretkey":  "!321ThisVerySpecialKeyForYou123!"
 }
